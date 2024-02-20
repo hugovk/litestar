@@ -1667,7 +1667,7 @@ will result in a useful error response:</p>
 <h2>Create dynamic routes using path parameters<a class="headerlink" href="#create-dynamic-routes-using-path-parameters" title="Permalink to this heading">#</a></h2>
 <p>The next task on the list is updating an item’s status. For this, a way to refer to a
 specific item on the list is needed. This could be done using query parameters, but
-there’s an easier, and more semantically coherent way of expressing this: Path
+there’s an easier, and more semantically coherent way of expressing this: path
 parameters.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/{name:str}&quot;</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">greeter</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1677,9 +1677,9 @@ parameters.</p>
 <p>So far all the paths in your application are static, meaning they are expressed by a
 constant string which does not change. In fact, the only path used so far is <code class="docutils literal notranslate"><span class="pre">/</span></code>.</p>
 <p>Path parameters allow you to construct dynamic paths and later refer to the dynamically
-captured parts. This may sound complex at first, but it’s actually quite simple; You can
+captured parts. This may sound complex at first, but it’s actually quite simple; you can
 think of it as a regular expression that’s being used on the requested path.</p>
-<p>Path parameters consist of two parts: An expression inside the path, describing the
+<p>Path parameters consist of two parts: an expression inside the path, describing the
 parameter, and a corresponding function parameter of the same name in the route handler
 function, which will receive the path parameter’s value.</p>
 <p>In the above example, a path parameter <code class="docutils literal notranslate"><span class="pre">name:str</span></code> is declared, which means that now,
