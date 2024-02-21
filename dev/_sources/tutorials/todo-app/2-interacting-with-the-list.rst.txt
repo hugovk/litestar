@@ -54,7 +54,7 @@ As in the previous chapter, this too can be improved by using
 
 
 This is not only easier on the eyes and adds more structure to the code, but also gives
-better interactive documentation; It will now present us with the field names and
+better interactive documentation; it will now present us with the field names and
 default values for the dataclass we have defined:
 
 .. figure:: images/swagger-dict-vs-dataclass.png
