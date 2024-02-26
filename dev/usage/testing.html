@@ -1617,24 +1617,10 @@ Sync</label><div class="sd-tab-content docutils">
 <div class="code-block-caption"><span class="caption-text">tests/test_health_check.py</span><a class="headerlink" href="#id6" title="Permalink to this code">#</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
 
-<span class="kn">from</span> <span class="nn">litestar</span> <span class="kn">import</span> <span class="n">Litestar</span><span class="p">,</span> <span class="n">MediaType</span><span class="p">,</span> <span class="n">get</span>
 <span class="kn">from</span> <span class="nn">litestar.status_codes</span> <span class="kn">import</span> <span class="n">HTTP_200_OK</span>
 <span class="kn">from</span> <span class="nn">litestar.testing</span> <span class="kn">import</span> <span class="n">TestClient</span>
 
-
-<span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/health-check&quot;</span><span class="p">,</span> <span class="n">media_type</span><span class="o">=</span><span class="n">MediaType</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">sync_to_thread</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">health_check</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="s2">&quot;healthy&quot;</span>
-
-
-<span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span><span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">health_check</span><span class="p">])</span>
-
-
-<span class="k">def</span> <span class="nf">test_health_check</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/health-check&quot;</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTP_200_OK</span>
-        <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s2">&quot;healthy&quot;</span>
+<span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span>
 
 
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
@@ -1658,24 +1644,10 @@ Async</label><div class="sd-tab-content docutils">
 <div class="code-block-caption"><span class="caption-text">tests/test_health_check.py</span><a class="headerlink" href="#id7" title="Permalink to this code">#</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
 
-<span class="kn">from</span> <span class="nn">litestar</span> <span class="kn">import</span> <span class="n">Litestar</span><span class="p">,</span> <span class="n">MediaType</span><span class="p">,</span> <span class="n">get</span>
 <span class="kn">from</span> <span class="nn">litestar.status_codes</span> <span class="kn">import</span> <span class="n">HTTP_200_OK</span>
 <span class="kn">from</span> <span class="nn">litestar.testing</span> <span class="kn">import</span> <span class="n">AsyncTestClient</span>
 
-
-<span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/health-check&quot;</span><span class="p">,</span> <span class="n">media_type</span><span class="o">=</span><span class="n">MediaType</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">sync_to_thread</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">health_check</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="s2">&quot;healthy&quot;</span>
-
-
-<span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span><span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">health_check</span><span class="p">])</span>
-
-
-<span class="k">async</span> <span class="k">def</span> <span class="nf">test_health_check</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">AsyncTestClient</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/health-check&quot;</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTP_200_OK</span>
-        <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s2">&quot;healthy&quot;</span>
+<span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span>
 
 
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
@@ -1705,7 +1677,7 @@ across requests, then you might want to inject or inspect session data outside a
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <ul class="simple">
-<li><p>The Session Middleware must be enabled in Litestar app provided to the TestClient to use sessions.</p></li>
+<li><p>The session middleware must be enabled in the Litestar app provided to the <a class="reference internal" href="../reference/testing.html#litestar.testing.TestClient" title="litestar.testing.TestClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestClient</span></code></a> to use sessions.</p></li>
 <li><p>If you are using the
 <a class="reference internal" href="../reference/middleware/session/client_side.html#litestar.middleware.session.client_side.ClientSideSessionBackend" title="litestar.middleware.session.client_side.ClientSideSessionBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientSideSessionBackend</span></code></a> you need to
 install the <code class="docutils literal notranslate"><span class="pre">cryptography</span></code> package. You can do so by installing <code class="docutils literal notranslate"><span class="pre">litestar</span></code>:</p></li>
@@ -1733,7 +1705,7 @@ pipx</label><div class="sd-tab-content docutils">
 </div>
 <input id="sd-tab-item-8" name="sd-tab-set-3" type="radio">
 </input><label class="sd-tab-label" for="sd-tab-item-8">
-pdm</label><div class="sd-tab-content docutils">
+PDM</label><div class="sd-tab-content docutils">
 <div class="literal-block-wrapper docutils container" id="id10">
 <div class="code-block-caption"><span class="caption-text">Using <a class="reference external" href="https://pdm.fming.dev/">PDM</a></span><a class="headerlink" href="#id10" title="Permalink to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pdm<span class="w"> </span>add<span class="w"> </span>litestar<span class="o">[</span>cryptography<span class="o">]</span>
@@ -1980,7 +1952,7 @@ without the test itself being asynchronous.</p>
 an instance of Litestar and then a test client using it. There are multiple use cases for this helper - when you need to check
 generic logic that is decoupled from a specific Litestar app, or when you want to test endpoints in isolation.</p>
 <p>You can pass to this helper all the kwargs accepted by
-the litestar constructor, with the <code class="docutils literal notranslate"><span class="pre">route_handlers</span></code> kwarg being <strong>required</strong>. Yet unlike the Litestar app, which
+the Litestar constructor, with the <code class="docutils literal notranslate"><span class="pre">route_handlers</span></code> kwarg being <strong>required</strong>. Yet unlike the Litestar app, which
 expects <code class="docutils literal notranslate"><span class="pre">route_handlers</span></code> to be a list, here you can also pass individual values.</p>
 <p>For example, you can do this:</p>
 <div class="literal-block-wrapper docutils container" id="id19">
@@ -2087,7 +2059,7 @@ from the <a class="reference internal" href="security/guards.html"><span class="
 <section id="using-polyfactory">
 <h2>Using polyfactory<a class="headerlink" href="#using-polyfactory" title="Permalink to this heading">#</a></h2>
 <p><a class="reference external" href="https://github.com/litestar-org/polyfactory">Polyfactory</a> offers an easy
-and powerful way to generate mock data from pydantic models and dataclasses.</p>
+and powerful way to generate mock data from Pydantic models and dataclasses.</p>
 <p>Let’s say we have an API that talks to an external service and retrieves some data:</p>
 <div class="literal-block-wrapper docutils container" id="id24">
 <div class="code-block-caption"><span class="caption-text">main.py</span><a class="headerlink" href="#id24" title="Permalink to this code">#</a></div>
@@ -2145,7 +2117,7 @@ and powerful way to generate mock data from pydantic models and dataclasses.</p>
 </div>
 <p>While we can define the test data manually, as is done in the above, this can be quite cumbersome. That’s
 where <a class="reference external" href="https://github.com/litestar-org/polyfactory">polyfactory</a> library comes in. It generates mock data for
-pydantic models and dataclasses based on type annotations. With it, we could rewrite the above example like so:</p>
+Pydantic models and dataclasses based on type annotations. With it, we could rewrite the above example like so:</p>
 <div class="literal-block-wrapper docutils container" id="id26">
 <div class="code-block-caption"><span class="caption-text">main.py</span><a class="headerlink" href="#id26" title="Permalink to this code">#</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
