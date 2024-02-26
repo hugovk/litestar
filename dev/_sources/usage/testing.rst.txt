@@ -127,11 +127,6 @@ We would then be able to rewrite our test like so:
             from app import app
 
 
-            @pytest.fixture(scope="function")
-            def test_client() -> TestClient:
-                return TestClient(app=app)
-
-
             def test_health_check_with_fixture(test_client: TestClient) -> None:
                 with test_client as client:
                     response = client.get("/health-check")
@@ -151,11 +146,6 @@ We would then be able to rewrite our test like so:
             from litestar.testing import AsyncTestClient
 
             from app import app
-
-
-            @pytest.fixture(scope="function")
-            def test_client() -> AsyncTestClient:
-                return AsyncTestClient(app=app)
 
 
             async def test_health_check_with_fixture(test_client: AsyncTestClient) -> None:
