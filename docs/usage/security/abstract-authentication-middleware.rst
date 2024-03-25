@@ -38,10 +38,10 @@ and :attr:`Request.auth <.connection.ASGIConnection.auth>` respectively, for HTT
 Example: Implementing a JWTAuthenticationMiddleware
 ---------------------------------------------------
 
-Since the above is quite hard to grasp in the abstract, lets see an example.
+Since the above is quite hard to grasp in the abstract, let's see an example.
 
 We start off by creating a user model. It can be implemented using pydantic, and ODM, ORM, etc. For the sake of the
-example here lets say it's a SQLAlchemy model:
+example here let's say it's a SQLAlchemy model:
 
 .. code-block:: python
     :caption: my_app/db/models.py

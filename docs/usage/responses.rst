@@ -415,7 +415,7 @@ In the above we set the response header using an ``after_request_handler`` funct
 handler function is applied on the router, we also set the documentation for it on the router.
 
 We can use this pattern to fine-tune the OpenAPI documentation more granularly by overriding header specification as
-required. For example, lets say we have a router level header being set and a local header with the same key but a
+required. For example, let's say we have a router level header being set and a local header with the same key but a
 different value range:
 
 .. literalinclude:: /examples/responses/response_headers_4.py
@@ -566,7 +566,7 @@ In the above we set the cookie using an ``after_request_handler`` function on th
 handler function is applied on the router, we also set the documentation for it on the router.
 
 We can use this pattern to fine-tune the OpenAPI documentation more granular by overriding cookie specification as
-required. For example, lets say we have a router level cookie being set and a local cookie with the same key but a
+required. For example, let's say we have a router level cookie being set and a local cookie with the same key but a
 different value range:
 
 .. literalinclude:: /examples/responses/response_cookies_5.py

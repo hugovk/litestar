@@ -12,7 +12,7 @@ the user's email in the response.
 Here we introduce a new DTO class (``ReadDTO``) and configure it to exclude the ``Person.email`` field. The route
 handler is also instructed to use the DTO to handle the response.
 
-Lets look at these changes in more detail. Firstly, we add two additional imports.
+Let's look at these changes in more detail. Firstly, we add two additional imports.
 
 The :class:`DTOConfig <litestar.dto.config.DTOConfig>` class is used to configure DTOs. In this case, we are using it to
 exclude the ``email`` field from the DTO, but there are many other configuration options available and we'll cover most
@@ -33,7 +33,7 @@ generic class. In this case, we create a DTO type that specializes in transferri
 Finally, we instruct the route handler to use the DTO (``return_dto=ReadDTO``) to transfer data from the handler
 response.
 
-Lets try it out, again visit `<http://localhost:8000/person/peter>`_ and you should see the following response:
+Let's try it out, again visit `<http://localhost:8000/person/peter>`_ and you should see the following response:
 
 .. image:: images/simple_exclude.png
     :align: center

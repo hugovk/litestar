@@ -116,7 +116,7 @@ to what we would expect from a conventional API.
 Next steps
 ==========
 
-Lets start cleaning this app up a little.
+Let's start cleaning this app up a little.
 
 One of the standout issues is that we repeat the logic to create a database session in every handler. This is
 something that we can fix with dependency injection.

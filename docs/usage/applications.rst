@@ -41,7 +41,7 @@ order, once the ASGI server (uvicorn, hypercorn, etc.) emits the respective even
 A classic use case for this is database connectivity. Often, we want to establish a database connection on application
 startup, and then close it gracefully upon shutdown.
 
-For example, lets create a database connection using the async engine from
+For example, let's create a database connection using the async engine from
 `SQLAlchemy <https://docs.sqlalchemy.org/en/latest/orm/extensions/asyncio.html>`_. We create two functions, one to get or
 establish the connection, and another to close it, and then pass them to the Litestar constructor:
 

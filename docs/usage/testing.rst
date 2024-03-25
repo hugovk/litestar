@@ -300,7 +300,7 @@ Another helper is the :class:`RequestFactory <litestar.testing.RequestFactory>` 
 :class:`litestar.connection.request.Request <litestar.connection.request.Request>`. The use case for this helper is when
 you need to test logic that expects to receive a request object.
 
-For example, lets say we wanted to unit test a *guard* function in isolation, to which end we'll reuse the examples
+For example, let's say we wanted to unit test a *guard* function in isolation, to which end we'll reuse the examples
 from the :doc:`route guards </usage/security/guards>` documentation:
 
 

@@ -133,7 +133,7 @@ The route handler "opt" key
 Occasionally there might be a need to set some values on the route handler itself - these can be permissions, or some
 other flag. This can be achieved with :ref:`the opts kwarg <handler_opts>` of route handler
 
-To illustrate this lets say we want to have an endpoint that is guarded by a "secret" token, to which end we create
+To illustrate this let's say we want to have an endpoint that is guarded by a "secret" token, to which end we create
 the following guard:
 
 .. code-block:: python

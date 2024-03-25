@@ -59,7 +59,7 @@ insertion of new items.
 Compare handlers before and after DI
 ====================================
 
-Just for fun, lets compare the sets of application handlers before and after we introduced dependency injection for our
+Just for fun, let's compare the sets of application handlers before and after we introduced dependency injection for our
 session object:
 
 .. tab-set::

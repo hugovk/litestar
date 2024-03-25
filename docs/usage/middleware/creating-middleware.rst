@@ -130,7 +130,7 @@ Using the :class:`MiddlewareProtocol <.middleware.base.MiddlewareProtocol>` you 
 incoming and outgoing data in a request / response cycle by "wrapping" that respective ``receive`` and ``send`` ASGI
 functions.
 
-To demonstrate this, lets say we want to append a header with a timestamp to all outgoing responses. We could achieve
+To demonstrate this, let's say we want to append a header with a timestamp to all outgoing responses. We could achieve
 this by doing the following:
 
 .. code-block:: python

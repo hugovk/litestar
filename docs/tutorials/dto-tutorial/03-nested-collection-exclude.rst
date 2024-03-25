@@ -11,7 +11,7 @@ we use the index of the type parameter to indicate which type the exclusion shou
 excludes the ``b`` field from the first type parameter of ``a``, ``a.1.b`` excludes the ``b`` field from the second type
 parameter of ``a``, and so on.
 
-To demonstrate, lets add a self-referencing ``children`` relationship to our ``Person`` model:
+To demonstrate, let's add a self-referencing ``children`` relationship to our ``Person`` model:
 
 .. literalinclude:: /examples/data_transfer_objects/factory/tutorial/nested_collection_exclude.py
    :language: python
