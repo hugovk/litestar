@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import collections
+import dataclasses
 import inspect
 import itertools
 import logging
@@ -27,6 +28,7 @@ from litestar._openapi.plugin import OpenAPIPlugin
 from litestar._openapi.schema_generation import openapi_schema_plugins
 from litestar.config.allowed_hosts import AllowedHostsConfig
 from litestar.config.app import AppConfig, ExperimentalFeatures
+from litestar.config.new_logging_config import NewLoggingConfig
 from litestar.config.response_cache import ResponseCacheConfig
 from litestar.connection import Request, WebSocket
 from litestar.datastructures.state import State
@@ -145,6 +147,7 @@ class Litestar(Router):
         "_lifespan_managers",
         "_openapi_schema",
         "_server_lifespan_managers",
+        "_logger_shutdown",
         "after_exception",
         "allowed_hosts",
         "asgi_handler",
@@ -197,7 +200,7 @@ class Litestar(Router):
         guards: Sequence[Guard] | None = None,
         include_in_schema: bool | EmptyType = Empty,
         listeners: Sequence[EventListener] | None = None,
-        logging_config: BaseLoggingConfig | EmptyType | None = Empty,
+        logging_config: NewLoggingConfig | None = None,
         middleware: Sequence[Middleware] | None = None,
         multipart_form_part_limit: int = 1000,
         on_app_init: Sequence[OnAppInitHandler] | None = None,
@@ -330,9 +333,6 @@ class Litestar(Router):
             experimental_features: An iterable of experimental features to enable
         """
 
-        if logging_config is Empty:
-            logging_config = LoggingConfig()
-
         if debug is None:
             debug = os.getenv("LITESTAR_DEBUG", "0") == "1"
 
@@ -360,7 +360,7 @@ class Litestar(Router):
             include_in_schema=include_in_schema,
             lifespan=list(lifespan or []),
             listeners=list(listeners or []),
-            logging_config=logging_config,
+            logging_config=logging_config or NewLoggingConfig(),
             middleware=list(middleware or []),
             multipart_form_part_limit=multipart_form_part_limit,
             on_shutdown=list(on_shutdown or []),
@@ -424,9 +424,6 @@ class Litestar(Router):
                 stacklevel=2,
             )
 
-        self.get_logger: GetLogger = get_logger_placeholder
-        self.logger: Logger | None = None
-
         self.after_exception = [ensure_async_callable(h) for h in config.after_exception]
         self.allowed_hosts = cast("AllowedHostsConfig | None", config.allowed_hosts)
         self.before_send = [ensure_async_callable(h) for h in config.before_send]
@@ -444,7 +441,7 @@ class Litestar(Router):
         self.state = config.state
         self.template_engine = config.template_config.engine_instance if config.template_config else None
         self.websocket_class: type[WebSocket] = config.websocket_class or WebSocket
-        self.debug = config.debug
+        self._debug = config.debug
         self.pdb_on_exception: bool = config.pdb_on_exception
         self.debugger_module: Debugger = config.debugger_module
         self.include_in_schema = include_in_schema
@@ -504,9 +501,12 @@ class Litestar(Router):
 
         self.asgi_router.construct_routing_trie()
 
-        if self.logging_config:
-            self.get_logger = self.logging_config.configure()
-            self.logger = self.get_logger("litestar")
+        # self.get_logger = self.logging_config.configure_logger()
+        self.get_logger = self.logging_config.get_logger
+        self.logger = self.get_logger("litestar")
+        logger_shutdown = self.logging_config.configure_logger()
+        if logger_shutdown:
+            self.on_shutdown.append(logger_shutdown)
 
         self.asgi_handler = self._create_asgi_handler()
 
@@ -570,20 +570,6 @@ class Litestar(Router):
     @property
     def debug(self) -> bool:
         return self._debug
-
-    @debug.setter
-    def debug(self, value: bool) -> None:
-        """Sets the debug logging level for the application.
-
-        When possible, it calls the `self.logging_config.set_level` method.  This allows for implementation specific code and APIs to be called.
-        """
-        if self.logger and self.logging_config:
-            self.logging_config.set_level(self.logger, logging.DEBUG if value else logging.INFO)
-        elif self.logger and hasattr(self.logger, "setLevel"):  # pragma: no cover
-            self.logger.setLevel(logging.DEBUG if value else logging.INFO)  # pragma: no cover
-        if isinstance(self.logging_config, LoggingConfig):
-            self.logging_config.loggers["litestar"]["level"] = "DEBUG" if value else "INFO"
-        self._debug = value
 
     async def __call__(
         self,

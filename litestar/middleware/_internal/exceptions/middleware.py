@@ -5,6 +5,7 @@ from sys import exc_info
 from traceback import format_exception
 from typing import TYPE_CHECKING, Any, Union, cast
 
+from litestar.config.new_logging_config import NewLoggingConfig
 from litestar.enums import ScopeType
 from litestar.exceptions import HTTPException, LitestarException, WebSocketException
 from litestar.exceptions.responses import create_exception_response
@@ -129,8 +130,11 @@ class ExceptionHandlerMiddleware:
 
             litestar_app = scope["litestar_app"]
 
-            if litestar_app.logging_config and (logger := litestar_app.logger):
-                self.handle_exception_logging(logger=logger, logging_config=litestar_app.logging_config, scope=scope)
+            self.handle_exception_logging(
+                logger=litestar_app.logger,
+                logging_config=litestar_app.logging_config,
+                scope=scope,
+            )
 
             for hook in litestar_app.after_exception:
                 await hook(e, scope)
@@ -208,7 +212,7 @@ class ExceptionHandlerMiddleware:
             return create_debug_response(request=request, exc=exc)
         return create_exception_response(request=request, exc=exc)
 
-    def handle_exception_logging(self, logger: Logger, logging_config: BaseLoggingConfig, scope: Scope) -> None:
+    def handle_exception_logging(self, logger: Logger, logging_config: NewLoggingConfig, scope: Scope) -> None:
         """Handle logging - if the litestar app has a logging config in place.
 
         Args:

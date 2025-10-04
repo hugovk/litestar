@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Callable
 
 from litestar.config.allowed_hosts import AllowedHostsConfig
+from litestar.config.new_logging_config import NewLoggingConfig
 from litestar.config.response_cache import ResponseCacheConfig
 from litestar.datastructures import State
 from litestar.events.emitter import SimpleEventEmitter
@@ -134,7 +135,7 @@ class AppConfig:
     """A list of callables returning async context managers, wrapping the lifespan of the ASGI application"""
     listeners: list[EventListener] = field(default_factory=list)
     """A list of :class:`EventListener <.events.listener.EventListener>`."""
-    logging_config: BaseLoggingConfig | None = field(default=None)
+    logging_config: NewLoggingConfig = field(default_factory=NewLoggingConfig)
     """An instance of :class:`BaseLoggingConfig <.logging.config.BaseLoggingConfig>` subclass."""
     middleware: list[Middleware] = field(default_factory=list)
     """A list of :class:`Middleware <.types.Middleware>`."""

@@ -4,6 +4,7 @@ from collections.abc import Mapping, Sequence
 from typing import TYPE_CHECKING, Any, Callable, Literal
 
 from litestar.app import DEFAULT_OPENAPI_CONFIG, Litestar
+from litestar.config.new_logging_config import NewLoggingConfig
 from litestar.controller import Controller
 from litestar.events import SimpleEventEmitter
 from litestar.testing.client import AsyncTestClient, TestClient
@@ -77,7 +78,7 @@ def create_test_client(
     guards: Sequence[Guard] | None = None,
     include_in_schema: bool | EmptyType = Empty,
     listeners: Sequence[EventListener] | None = None,
-    logging_config: BaseLoggingConfig | EmptyType | None = Empty,
+    logging_config: NewLoggingConfig | None = None,
     middleware: Sequence[Middleware] | None = None,
     multipart_form_part_limit: int = 1000,
     on_app_init: Sequence[OnAppInitHandler] | None = None,
@@ -334,7 +335,7 @@ def create_async_test_client(
     include_in_schema: bool | EmptyType = Empty,
     lifespan: list[Callable[[Litestar], AbstractAsyncContextManager] | AbstractAsyncContextManager] | None = None,
     listeners: Sequence[EventListener] | None = None,
-    logging_config: BaseLoggingConfig | EmptyType | None = Empty,
+    logging_config: NewLoggingConfig | None = None,
     middleware: Sequence[Middleware] | None = None,
     multipart_form_part_limit: int = 1000,
     on_app_init: Sequence[OnAppInitHandler] | None = None,
